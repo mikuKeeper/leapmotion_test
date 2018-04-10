@@ -1,3 +1,4 @@
+#! /usr/bin/python2.7
 ################################################################################
 # Copyright (C) 2012-2013 Leap Motion, Inc. All rights reserved.               #
 # Leap Motion proprietary and confidential. Not for distribution.              #
@@ -13,6 +14,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(src_dir, arch_dir)))
 import Leap, sys, thread, time
 from Leap import CircleGesture, KeyTapGesture, ScreenTapGesture, SwipeGesture
 
+from action.unlockscreen import UnlockScreen
 
 class SampleListener(Leap.Listener):
     finger_names = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky']
@@ -23,6 +25,7 @@ class SampleListener(Leap.Listener):
         self.child = None
         self.fb = open('/dev/null')
         self.skip_frame_num = 0
+        self.us = UnlockScreen()
         print "Initialized"
 
     def on_connect(self, controller):
@@ -112,6 +115,8 @@ class SampleListener(Leap.Listener):
      
                     else:
                         clockwiseness = "counterclockwise"
+                        self.us.unlock()
+                        
     
                     # Calculate the angle swept since the last frame
                     swept_angle = 0
@@ -177,7 +182,6 @@ def main():
     controller.add_listener(listener)
 
     # Keep this process running until Enter is pressed
-    print "Press Enter to quit..."
     try:
         sys.stdin.readline()
     except KeyboardInterrupt:

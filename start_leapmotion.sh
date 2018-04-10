@@ -1,4 +1,4 @@
-nohup leapd&
+nohup leapd > /dev/null &
 sleep 5
 echo "start leap finished";
-python2.7 gestures_control.py
+/usr/bin/python2.7 /root/programeworkstation/python-workstation/fun_projects/leapmotion_test/gestures_control.py
